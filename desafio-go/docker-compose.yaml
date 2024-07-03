@@ -1,0 +1,10 @@
+services:
+
+  golang:
+    build: .
+    image: vinicius/fullcycle
+    container_name: vinicius/fullcycle
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/app
