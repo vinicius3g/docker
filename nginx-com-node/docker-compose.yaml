@@ -1,0 +1,47 @@
+services:
+  nginx:
+    build: 
+      context: nginx
+      dockerfile: Dockerfile
+    container_name: nginx
+    networks:
+      - app-network
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+    ports:
+      - 8080:8080
+    depends_on:
+      - app
+
+  app:
+    build: 
+      context: node
+      dockerfile: Dockerfile
+    container_name: app
+    ports:
+      - 3000:3000
+    volumes:
+      - ./node:/app
+    networks:
+      - app-network
+    depends_on:
+      - db
+
+  db:
+    container_name: db
+    image: mysql:5.7
+    restart: always
+    ports:
+      - 3306:3306
+    tty: true
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=test
+    volumes:
+      - ./dbdata:/var/lib/mysql
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
