@@ -1,20 +1,22 @@
-FROM golang:1.22.4-alpine3.20 AS build
+# declaração da imagem base golang
+FROM golang:alpine AS builder
 
+# criaçao do diretorio
 WORKDIR /app
 
-COPY go.mod ./
-COPY /cmd/main.go ./
+## copiando o app
+COPY . .
 
-RUN go build -o /server
+# Compilando o binário removendo informações de debug
+RUN go build -ldflags '-s -w' main.go
 
-FROM gcr.io/distroless/base-debian10
+##Stage2
+# iniciando scratch
+FROM scratch
 
+# diretorio de trabalho
 WORKDIR /
 
-COPY --from=build /server /server
+COPY --from=builder /app / 
 
-EXPOSE 8080
-
-USER nonroot:nonroot
-
-ENTRYPOINT ["/server"]
+CMD ["./main"]
