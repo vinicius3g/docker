@@ -9,8 +9,8 @@
  rode o comando para baixar a image do docker hub e executar: 
 
 ```bash
-docker pull vinicius3g/vinicius-fullcycle:vinicius-fullcycle
-docker run vinicius3g/vinicius-fullcycle:vinicius-fullcycle
+docker pull vinicius3g/vinicius-fullcyle:vinicius-fullcycle
+docker run vinicius3g/vinicius-fullcyle:vinicius-fullcycle
 ```
 para criar sua proprioa imagem e subir bastar rodar os comandos.
 
