@@ -18,10 +18,12 @@ services:
       context: node
       dockerfile: Dockerfile
     container_name: app
+    entrypoint: dockerize -wait tcp://db:3306 -timeout 60s node index.js
     ports:
       - 3000:3000
     volumes:
       - ./node:/app
+      - /app/node_modules
     networks:
       - app-network
     depends_on:
@@ -38,7 +40,7 @@ services:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=test
     volumes:
-      - ./dbdata:/var/lib/mysql
+      - ./dbdata:/docker-entrypoint-initdb.d
     networks:
       - app-network
 
